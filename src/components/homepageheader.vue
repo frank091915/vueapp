@@ -1,5 +1,5 @@
 <template>
-	 <mt-header fixed title="仅图标">
+	 <mt-header fixed title="">
         <router-link to="/" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
@@ -21,4 +21,8 @@
 </script>
 
 <style>
+	.mint-header{
+		background-color: white;
+		color: black;
+	}
 </style>

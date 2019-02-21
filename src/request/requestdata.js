@@ -28,6 +28,11 @@ const gettabbar=()=>{
 	return ajax.get("/tabbarimg")
 }
 
+//登录请求
+const toSignIn=({username,password})=>{
+	return ajax.get("/signIn")
+}
+
 //拦截请求,并进行操作,显示等待图标
 ajax.interceptors.request.use((config)=>{
 //	Indicator.open({text:"loading..."});
@@ -47,11 +52,10 @@ ajax.interceptors.response.use((config)=>{
 		  duration: 5000
 		});
 	}
-	console.log(config)
 
 })
 
 //导出模块
 export{
-	getswiperimgs,getcategorynav,getsubcategory,gettabbar
+	getswiperimgs,getcategorynav,getsubcategory,gettabbar,toSignIn
 }

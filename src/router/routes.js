@@ -5,6 +5,7 @@ import cart from "@/pages/cart"
 import tabbar from "@/components/tabbar"
 import homepageheader from "@/components/homepageheader"
 import mine from "@/pages/mine"
+import signIn from "@/pages/signIn"
 import subcategory from "@/components/subcategory"
 
 export default [
@@ -14,7 +15,8 @@ export default [
 	redirect:"/home",
 	meta:{
 		title:"",
-		isrendered:false
+		isrendered:false,
+		isChecked:false
 		}
 	},
 //	首页组件
@@ -28,7 +30,8 @@ export default [
 	},
 	meta:{
 		title:"首页",
-		isrendered:true
+		isrendered:true,
+		isChecked:false			
 		}
 	},
 //	商城页面组件
@@ -42,7 +45,8 @@ export default [
 	},
 	meta:{
 		title:"分类",
-		isrendered:true
+		isrendered:true,
+		isChecked:false
 	},
 	children:[
 	{
@@ -64,10 +68,11 @@ export default [
 	},
 	meta:{
 		title:"购物车",
-		isrendered:true
+		isrendered:true,
+		isChecked:true
 		}
 	},
-		{
+	{
 	name:"mine",
 	path:"/mine",
 	components:{
@@ -77,7 +82,22 @@ export default [
 	},
 	meta:{
 		title:"我的",
-		isrendered:true
+		isrendered:true,
+		isChecked:true
 		}
+	},
+	{
+		name:"signIn",
+		path:"/signIn",
+		components:{
+		header: homepageheader,					
+		main:signIn,
+		tabbar
+		},
+		meta:{
+			title:"登录",
+			isrendered:false,
+			isChecked:false
+			}
 	}
 ]

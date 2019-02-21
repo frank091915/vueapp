@@ -5,7 +5,18 @@
 		<CartList v-for="item in cart" :key="item.id" v-bind="item"></CartList>
 	</ul>
 	<div class="computedBox" >
-			总计 数量 {{getTotalAmount}} 总价 {{getTotalPrice}}
+		<div class="allSelected">
+			<input type="checkbox"/>
+			<span>全选</span>
+		</div>
+		<div class="computedInfo">
+			<div class="totalPrice">
+				<p ><span class="totalPriceSpan1">总价：</span><span class="totalPriceSpan2">￥{{(getTotalPrice).toFixed(2)}}</span> </p>
+				<p>满减</p>
+			</div>
+			<div class="goPay" ><a href="">去结算</a><span>({{getTotalAmount}}件)</span> </div>
+		</div>
+			
 	</div>
 
 	</div>
@@ -22,11 +33,8 @@
 		components:{
 			CartList
 		},
-		created(){
-			console.log(this)
-		},
 		methods:{
-			...mapMutations(["addcount","cutcount"]),
+			...mapMutations(["addcount","cutcount","addtolocal"]),
 			...mapActions(["asynchadd"])
 		},
 		data:function(){
@@ -48,5 +56,73 @@
 }
 .cartListView{
 	min-height: 80vh;
+}
+.computedBox{
+	position: fixed;
+	bottom: 0;
+	height: 7vh;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	z-index: 99;
+	background: hsla(0,0%,100%,.95);
+}
+.computedBox .allSelected{
+	width: 5vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.allSelected span{
+	color: #999;
+}
+.computedBox .allSelected input{
+	width: 2.5vh;
+	height: 2.5vh;
+	border-radius: 50%;
+}
+.computedInfo{
+	width: 36vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+.goPay{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 16vh;
+	color: white;
+	background: #e4393c;
+	height: 100%;
+	display: ;
+}
+.goPay a{
+	color: white;
+}
+.goPay span{
+	font-size: 1.8vh;
+}
+.totalPrice{
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.totalPriceSpan2{
+	color:#e93b3d ;
+	font-weight: 600;
+}
+.totalPrice p:nth-child(2){
+	color: #999;
+	font-size: 1.8vh;
+}
+.totalPriceSpan1{
+	font-weight: 600;
 }
 </style>

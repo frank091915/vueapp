@@ -67,7 +67,10 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-	
+a{
+	text-decoration: none;
+	list-style: none;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -20,7 +20,7 @@
 		data:function(){
 			return{
 				selected:"home",
-				info:info.filter(curr=>curr.meta.isrendered),
+				info:info.filter(curr=>curr.meta.isrendered)
 			}
 		},
 		watch:{

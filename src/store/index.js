@@ -3,13 +3,28 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+//插件,在每次调用mutation后的钩子函数，可用于保存修改后的数据
+
+const toSavePlugins = store => {
+  // 当 store 初始化后调用
+  store.subscribe((mutation, state) => {
+    // 每次 mutation 之后调用
+    // mutation 的格式为 { type, payload }
+    console.log(mutation)
+//  判断哪些操作是修改cart的,然后保存cart
+		if( ["addcart", "addcount", "cutcount", "deleteitem"].indexOf(mutation.type)){
+			window.localStorage.setItem("kkcart",JSON.stringify(state.cart))
+		}
+  })
+}
+
 //导出store
 export default new Vuex.Store({
+	plugins:[toSavePlugins],
   state: {
     count: 0,
-    cart:[{amount:1,id:666,title:"六六六",price:666,img:"http://s11.mogucdn.com/mlcdn/c45406/190218_01ek21ghj3clgld58a3g4h6j6k56b_800x800.jpg_320x999.jpg"},
-    {amount:2,id:888,title:"八八八",price:888,img:"http://s11.mogucdn.com/mlcdn/c45406/190217_2lfhejck8e4k251f4eig5805dikj3_800x780.jpg_320x999.jpg"}
-    ]
+    cart: JSON.parse(window.localStorage.getItem("kkcart")) || [],
+    isSigned:window.localStorage.getItem("kktoken") != null
   },
   getters:{
   	getTotalAmount(state){
@@ -31,8 +46,8 @@ export default new Vuex.Store({
 							state.cart.filter(curr=>{
 								if(curr.id==prod.id){
 									curr.amount+=1;
-									return true
 								}
+									return true
 							})
 						}else{
 									prod.amount=1;
@@ -40,16 +55,48 @@ export default new Vuex.Store({
 								}
   		console.log(state.cart)
   	},
-    addcount(state){
-    	state.count += 2;
+    addcount(state,itemId){
+//  用非变异方法时,重新给state赋值,视图才会更新
+		  state.cart = state.cart.filter(curr=>{
+				if(curr.id==itemId){
+					curr.amount += 1;
+				}		
+					return true
+		})
+//			state.cart = state.cart.filter(curr => {
+//						if (curr.id == itemId)
+//							curr.amount += 1;
+//						return true
+//					})
+		
     },
-    cutcount(state){
-    	state.count -= 1;
+    cutcount(state,itemId){
+    	  state.cart = state.cart.filter(curr=>{
+						if(curr.id==itemId &&curr.amount>1){
+								curr.amount -= 1;
+						}		
+							return true
+				})
+    	  console.log(state.cart)
+    },
+    deleteitem(state,itemId){
+    	  state.cart = state.cart.filter(curr=>{
+						if(curr.id==itemId){
+								return false
+						}		
+							return true
+				})
+    },
+    changeState(state){
+    	state.isSigned = !state.isSigned
+    },
+    addtolocal(state){
+    	window.localStorage.setItem("kkcart",JSON.stringify(state.cart))
     }
   },
   actions:{
   	asynchadd(store){
-  		store.commit("addcount")
+  			store.commit("addcount")
   	}
   }
 })
