@@ -6,8 +6,8 @@
 	</ul>
 	<div class="computedBox" >
 		<div class="allSelected">
-			<input type="checkbox"/>
-			<span>全选</span>
+			<input @click="ifAllselected(defaultAllSelected)" type="checkbox" :checked="defaultAllSelected"/>
+			<span >全选</span>
 		</div>
 		<div class="computedInfo">
 			<div class="totalPrice">
@@ -34,7 +34,7 @@
 			CartList
 		},
 		methods:{
-			...mapMutations(["addcount","cutcount","addtolocal"]),
+			...mapMutations(["addcount","cutcount","addtolocal","ifAllselected"]),
 			...mapActions(["asynchadd"])
 		},
 		data:function(){
@@ -45,7 +45,10 @@
 		computed:{
 //			从store中获取的数结构计算属性中
 			...mapState(["cart"]),
-			...mapGetters(["getTotalAmount","getTotalPrice"])
+			...mapGetters(["getTotalAmount","getTotalPrice","defaultAllSelected"])
+		},
+		created(){
+
 		}
 	}
 </script>

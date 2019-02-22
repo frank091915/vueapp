@@ -10,11 +10,19 @@ const toSavePlugins = store => {
   store.subscribe((mutation, state) => {
     // 每次 mutation 之后调用
     // mutation 的格式为 { type, payload }
-    console.log(mutation)
 //  判断哪些操作是修改cart的,然后保存cart
-		if( ["addcart", "addcount", "cutcount", "deleteitem"].indexOf(mutation.type)){
+		if( ["addcart", "addcount", "cutcount", "deleteitem"].indexOf(mutation.type)!=-1){
 			window.localStorage.setItem("kkcart",JSON.stringify(state.cart))
 		}
+		
+		console.log(state.cart.filter((curr)=>{
+				if(curr.isSelected){
+					return true
+				}else{
+					return false
+				}
+		}).length)
+		
   })
 }
 
@@ -24,8 +32,8 @@ export default new Vuex.Store({
   state: {
     count: 0,
     cart: JSON.parse(window.localStorage.getItem("kkcart")) || [],
-    isSigned:window.localStorage.getItem("kktoken") != null
-  },
+    isSigned:window.localStorage.getItem("kktoken") != null,   
+  }, 
   getters:{
   	getTotalAmount(state){
   		return state.cart.reduce((pre,nex)=>{
@@ -33,10 +41,45 @@ export default new Vuex.Store({
   		},0)
   	},
   	getTotalPrice(state){
-  		return state.cart.reduce((pre,nex)=>{
-  			return parseFloat(pre+nex.price * nex.amount)
+  		return state.cart.filter((curr)=>{
+				if(curr.isSelected){
+					return true
+				}else{
+					return false
+				}
+		}).reduce((pre,nex)=>{
+  			return parseFloat(pre+  nex.price * nex.amount)
   		},0)
-  	}
+  	},
+  	selectedAmounted(state){
+  		return state.cart.filter((curr)=>{
+				if(curr.isSelected){
+					return true
+				}else{
+					return false
+				}
+		}).length
+  	},
+  	//全选按钮的默认状态
+  	defaultAllSelected(state){
+//		根据购物车的状态返回不同的布尔值
+  		return  !!state.cart.length ? state.cart.every((curr)=>{return curr.isSelected}): false
+  		  	}
+//		function togetselected (){
+//			if(state.cart.length){
+//			return true
+//		}else{
+//			const selectedAmount=state.cart.reduce((pre,nex)=>{
+//					return pre+nex.isSelected ? 1 : 0
+//			},0);
+//			if(state.cart.length==selectedAmount){
+//				return true
+//			}else{
+//				return false
+//			}
+//		}
+//		}  		
+
   },
   mutations: {
   	addcart(state,prod){
@@ -92,7 +135,22 @@ export default new Vuex.Store({
     },
     addtolocal(state){
     	window.localStorage.setItem("kkcart",JSON.stringify(state.cart))
-    }
+    },
+    changeSelected(state,id){
+    		state.cart=state.cart.filter((curr)=>{
+    			if(curr.id==id){
+    				curr.isSelected=!curr.isSelected;
+    				return true
+    			}
+    			return true
+    		})
+    },
+//  全选按钮点击事件
+	ifAllselected(state,preStatus){
+		state.cart.forEach(curr=>{
+			curr.isSelected=!preStatus;
+		})
+	}
   },
   actions:{
   	asynchadd(store){

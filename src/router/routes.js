@@ -6,6 +6,7 @@ import tabbar from "@/components/tabbar"
 import homepageheader from "@/components/homepageheader"
 import mine from "@/pages/mine"
 import signIn from "@/pages/signIn"
+import signUp from "@/pages/signUp"
 import subcategory from "@/components/subcategory"
 
 export default [
@@ -96,6 +97,20 @@ export default [
 		},
 		meta:{
 			title:"登录",
+			isrendered:false,
+			isChecked:false
+			}
+	},
+		{
+		name:"signUp",
+		path:"/signUp",
+		components:{
+		header: homepageheader,					
+		main:signUp,
+		tabbar
+		},
+		meta:{
+			title:"注册",
 			isrendered:false,
 			isChecked:false
 			}

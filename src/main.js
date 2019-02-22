@@ -21,6 +21,7 @@ Vue.config.productionTip = false
 
 //调用全局守卫,判断权限
 router.beforeEach((to, from, next) => {
+//	判断是否已登录
   if(to.meta.isChecked){
   	if(store.state.isSigned){
   		next()

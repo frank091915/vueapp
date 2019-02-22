@@ -33,6 +33,11 @@ const toSignIn=({username,password})=>{
 	return ajax.get("/signIn")
 }
 
+//注册请求
+const toSignUp=({username,password})=>{
+	return ajax.get("/signUp")
+}
+
 //拦截请求,并进行操作,显示等待图标
 ajax.interceptors.request.use((config)=>{
 //	Indicator.open({text:"loading..."});
@@ -57,5 +62,5 @@ ajax.interceptors.response.use((config)=>{
 
 //导出模块
 export{
-	getswiperimgs,getcategorynav,getsubcategory,gettabbar,toSignIn
+	getswiperimgs,getcategorynav,getsubcategory,gettabbar,toSignIn,toSignUp
 }

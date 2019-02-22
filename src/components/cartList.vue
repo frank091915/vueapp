@@ -2,7 +2,7 @@
 	<li class="cartItemLi">
 		<div class="cartItemRight">
 			<div class="toSelect">	
-				<input type="checkbox"  class="toCheckIpunt" />
+				<input type="checkbox" @click="changeSelected(id)"  class="toCheckIpunt" :checked="isSelected"/> 
 			</div>
 			<div class="cartItemImg">
 				<img :src="img"/>
@@ -30,9 +30,9 @@
 	import {mapMutations} from "vuex"
 	export default {
 		name:"cartList",
-		props:["amount","id","title","price","img","description"],
+		props:["amount","id","title","price","img","description","isSelected",],
 		methods:{
-			...mapMutations(["addcount","cutcount","deleteitem"])
+			...mapMutations(["addcount","cutcount","deleteitem","changeSelected"])
 		},
 	}
 </script>
